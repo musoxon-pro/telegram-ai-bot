@@ -1,0 +1,148 @@
+{
+  "greetings": {
+    "patterns": ["salom", "assalom", "assalomu alaykum", "hello", "hi", "salomlar", "qale", "qalaysan", "qandaysan", "nima gaplar", "qanday ishlar", "yaxshimisan", "eshitvomiz", "sog'liklar"],
+    "responses": [
+      "Assalomu alaykum! 👋 Sizni ko'rganimdan xursandman. Qanday yordam bera olaman?",
+      "Va alaykum assalom! 🌟 Bugun sizga qanday yordam kerak?",
+      "Salom! 😊 Ahvollaringiz yaxshimi? Nima gaplar?",
+      "Assalom! Qandaydir savolingiz yoki muammongiz bormi?",
+      "Salom, aziz foydalanuvchi! 🎉 Bugun siz uchun nima qila olaman?"
+    ]
+  },
+  
+  "how_are_you": {
+    "patterns": ["ahvoling qanday", "qandaysiz", "yaxshimisiz", "kayfing yaxshimi", "ahvol", "ishlar qanday", "o'zing yaxshimisan", "qalaysan o'zing", "tuzukmisan", "kayfiyat qanday", "qanday kayfiyat", "kef", "kefing yaxshimi"],
+    "responses": [
+      "Rahmat, yaxshi! 😊 Sizga yordam berishga doim tayyorman. O'zingiz-chi?",
+      "A'lo darajada! 🚀 Siz bilan suhbatlashish yoqimli. Ahvolingiz qanday?",
+      "Men botman, lekin siz bilan suhbatdan kayfiyatim ko'tarilmoqda! 😄 Sizda-chi?",
+      "Zo'r! 💪 Yangi narsalarni o'rganishga tayyorman. Siz qandaysiz?",
+      "Yaxshi, rahmat! Sizni eshitishdan xursandman. 😊 O'zingiz yaxshimisiz?"
+    ]
+  },
+  
+  "help": {
+    "patterns": ["yordam", "nima qilasan", "qo'lingdan nima keladi", "nimalarga qodirsan", "nima bilasan", "qanaqa bot", "nima gap o'zi", "nimaga keraksan", "vazifang", "nima ish qilasan", "help", "yordam kerak", "yordam bera olasanmi"],
+    "responses": [
+      "Men quyidagi mavzularda suhbatlasha olaman: 🌟\n\n• Tabriklash va salomlashish\n• Ob-havo haqida gapirish (umumiy)\n• Vaqt va sanani aytish\n• Hazil va kulgili gaplar\n• Maslahatlar berish\n• Oddiy savollarga javob\n\nNimani xohlaysiz?",
+      "Mening vazifam siz bilan do'stona suhbat qilish! 😊\n\nMen:\n- Savollaringizga javob beraman\n- Maslahatlar ulashaman\n- Kulgili hikoyalar aytaman\n- Yangi ma'lumotlar beraman\n\nNimadan boshlaymiz?"
+    ]
+  },
+  
+  "jokes": {
+    "patterns": ["hazil", "kuldir", "kulguli", "hazil qil", "bir hazil", "kulgi", "kulguli gap", "hazillar", "joke", "kuldirsang", "qiziq gap", "qiziqarli"],
+    "responses": [
+      "😄 O'qituvchi o'quvchiga:\n- Nega darsga kech qolding?\n- Maktab oldidagi tabelda \"Maktabga asta kiring, bolalar!\" deb yozilgan edi, shuning uchun asta keldim!",
+      "😂 Bemor doktorga:\n- Doktor, men kechalari uxlay olmayman.\n- Qo'ylarni sanang.\n- Sanadim, ular \"Politsiya! Politsiya!\" deb baqirishdi!",
+      "🤣 - Nega kompyuteringni doktorga olib bording?\n- Virus tutib qolgan edi!\n- Ha, endi tuzaladimi?\n- Bilmayman, \"McAfee\" buyurdi, \"kutamiz\" dedi!",
+      "😆 Ota bola bilan:\n- O'g'lim, nima uchun matematika daftaring ho'l?\n- O'qituvchi \"ko'z yoshlarsiz yechilmaydi\" degandi!"
+    ]
+  },
+  
+  "time": {
+    "patterns": ["vaqt", "soat", "bugun qaysi kun", "sana", "hozir vaqt qancha", "soat necha", "bugun nechanchi", "oy", "yil", "dec", "date", "vaqtni ayt", "bugungi sana", "kun"],
+    "responses": [
+      "Kechirasiz, men aniq vaqtni bilmayman, lekin sizga yordam berishga doim tayyorman! 😊",
+      "Vaqt - eng qimmatli resurs! Uni mazmunli o'tkazing. 😉",
+      "Hozirgi aniq vaqtni bilmasam ham, ayni damda siz bilan suhbatlashish juda yoqimli! ⏰"
+    ]
+  },
+  
+  "love": {
+    "patterns": ["sevgi", "muhabbat", "sevaman", "yoqtiraman", "oshiq", "yigit", "qiz", "tanishuv", "sevib qolgan", "er", "xotin", "oilali", "turmush", "sevishgan", "love"],
+    "responses": [
+      "Sevgi - bu hayotning eng go'zal tuyg'usi! 💕 Kimnidir yaxshi ko'rasizmi?",
+      "Muhabbat haqida ajoyib gap bor: \"Sevgi sabr qiladi, sevgi mehrli...\" 😊",
+      "Sevgi - bu san'at! U har kuni o'rganiladi va yaratiladi. Sizda qanday sevgi hikoyasi bor? 🌹",
+      "Buyuklar aytgan: \"Sevgisiz hayot - quyoshsiz bog'ga o'xshaydi\". Siz bunga qo'shilasizmi?"
+    ]
+  },
+  
+  "weather": {
+    "patterns": ["obhavo", "havo", "yomg'ir", "issiq", "sovuq", "qor", "quyosh", "bulut", "shamol", "ob havo", "harorat", "gradus", "weather"],
+    "responses": [
+      "Aniq ob-havo ma'lumotini bilmasam ham, har qanday ob-havoda yaxshi kayfiyat tilayman! ☀️",
+      "Ob-havo qanday bo'lishidan qat'i nazar, har kun go'zal! 😊 Yomg'ir bo'lsa kitob o'qing, quyosh bo'lsa sayr qiling!",
+      "Men ob-havo ilovasi emasman, lekin siz bilan suhbat har doim 'quyoshli'! 🌤️"
+    ]
+  },
+  
+  "food": {
+    "patterns": ["ovqat", "taom", "osh", "palov", "mastava", "sho'rva", "somsa", "chuchvara", "manti", "lag'mon", "tandir", "non", "qozon kavob", "yegim keldi", "och", "qornim ochdi", "restoran", "kafe", "food"],
+    "responses": [
+      "Osh - o'zbekning dunyoga mashhur taomi! 🍚 Sizga osh yoqadimi?",
+      "Palov, somsag-u chuchvara... Gapirish bilan og'iz suv keldi-ya! 😋 Sevimli taomingiz nima?",
+      "O'zbek oshxonasi - dunyodagi eng boy oshxonalardan biri! 🥘 Somsami, mantimi yoki lag'monni afzal ko'rasiz?",
+      "Pishloq somsa, kartoshka somsa, go'sht somsa... Qaysi biri ko'proq yoqadi? 🤤"
+    ]
+  },
+  
+  "encouragement": {
+    "patterns": ["tushkun", "zerikdim", "yolg'iz", "xafa", "yomon", "ruhiy", "depressiya", "alam", "yig'lagim", "umid", "charchadim", "qiynal", "qiynaldim", "baxtsiz", "motivatsiya"],
+    "responses": [
+      "Har doim esda tuting: Eng qorong'u tundan keyin quyosh chiqadi! ☀️ Siz kuchlisiz!",
+      "Hayotda qiyinchiliklar bo'ladi, lekin siz ularni yengib o'tishga qodirsiz! 💪 Men ishonaman!",
+      "Tushkunlik - bu vaqtinchalik mehmon. Ertaga hammasi yaxshilanadi! 🌈 Chuqur nafas oling.",
+      "Siz yolg'iz emassiz! Har bir inson qiyin damlarni boshdan kechiradi. Muhimi - oldinga qarab yurish! 🌟"
+    ]
+  },
+  
+  "programming": {
+    "patterns": ["dastur", "kompyuter", "dasturlash", "coding", "python", "javascript", "react", "vue", "dasturchi", "vscode", "github", "code", "web", "sayt", "frontend", "backend", "css", "html", "stack", "overflow", "programmer", "programming"],
+    "responses": [
+      "JavaScript - eng mashhur dasturlash tili! 🚀 Siz nima dasturlaysiz?",
+      "Dasturlash - bu zamonaviy sehrgarlik! 💻 Qanday loyihalar ustida ishlayapsiz?",
+      "Stack Overflow - dasturchilarning eng yaqin do'sti! 😄 O'zbekiston IT jamoasi o'sib boryapti!",
+      "Frontend yoki Backend? Yoki FullStack? Har biri ajoyib! Men JavaScriptda yozilgan botman!"
+    ]
+  },
+  
+  "thanks": {
+    "patterns": ["rahmat", "tashakkur", "spasiba", "thanks", "thank", "thank you", "rahma", "raximat", "tashakur", "zo'r", "barakalla", "qoyil", "ofarin"],
+    "responses": [
+      "Arzimaydi! 😊 Doim yordam berishga tayyorman!",
+      "Iltimos! 🌟 Yana qanday yordam kerak bo'lsa, ayting!",
+      "Tashakkur sizga! Yaxshi suhbatlashdik.",
+      "Xizmatdan xursandman! Yana keling! 🎉"
+    ]
+  },
+  
+  "goodbye": {
+    "patterns": ["xayr", "ko'rishguncha", "hayr", "hayrli", "xayrli", "tun", "kuningiz xayrli", "bo'pti", "mayli", "bye", "goodbye", "charchadim", "ketdim", "yotaman", "uxlayman"],
+    "responses": [
+      "Xayr! Yana ko'rishguncha! 👋 Yaxshi boring!",
+      "Hayrli kun! Doim kuting, do'stingiz doim shu yerda! 🌟",
+      "Ko'rishguncha! Omad tilayman! 😊",
+      "Xayr, azizim! Yana suhbatlashamiz degan umiddaman! 💫"
+    ]
+  },
+  
+  "about_bot": {
+    "patterns": ["isming", "kim", "nima", "kimsan", "kimsan", "isming nima", "o'zing haqinda", "sen kimsan", "qayerdansan", "qanday botsan", "yaratuvchi", "yaratuvching kim", "seni kim yaratdi", "o'zingni tanishtir", "nimaligings"],
+    "responses": [
+      "Men sun'iy intellekt asosida yaratilgan suhbatdosh botman! 🤖 Mening vazifam - siz bilan do'stona suhbat qilish va yordam berish.",
+      "Meni dasturchi yaratgan va men har kuni yangi narsalarni o'rganaman! 📚 Savolingiz bormi?",
+      "Men chatbotman, lekin do'stona suhbatlarni yaxshi ko'raman! 😊 O'zbek tilida ajoyib suhbatlashamiz!"
+    ]
+  },
+  
+  "motivation": {
+    "patterns": ["motivatsiya", "harakat", "maqsad", "orzu", "muvaffaqiyat", "omad", "ishonch", "kuch", "o'qish", "ish", "pul topish", "boy", "mashhur", "karera", "success"],
+    "responses": [
+      "Katta maqsadlar kichik qadamlar bilan amalga oshadi! 🎯 Bugun birinchi qadamni qo'ying!",
+      "Muvaffaqiyat - bu omadsizlikdan omadsizlikka astoydil harakat qilishdir. Davom eting! 💪",
+      "Har bir mutaxassis bir paytlar boshlovchi bo'lgan! 🌟 Hech qachon taslim bo'lmang!",
+      "Orzuingiz katta, maqsadingiz baland baland! Ishonch bilan oldinga intiling! 🚀"
+    ]
+  },
+  
+  "fallback": {
+    "responses": [
+      "Tushunarli, lekin aniqroq ayta olasizmi? 😊 Nima demoqchisiz?",
+      "Hmm, bu haqda ko'proq ma'lumotga ega emasman. Boshqa mavzu haqida gaplashamizmi?",
+      "Kechirasiz, buni tushunmadim. Qaytadan savol bering yoki /help yozing. 😊",
+      "Men buni hali o'rganmaganman. Lekin men bilan boshqa mavzularda suhbatlashsangiz bo'ladi! 🌟",
+      "Bu savolingizga aniq javob berolmayman. Ammo o'zbek tilidagi suhbatda davom etamiz! 👋"
+    ]
+  }
+}
