@@ -1,7 +1,9 @@
 const { Telegraf } = require('telegraf');
 const chatEngine = require('../utils/chatEngine');
 
-const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+// ⚠️ Token to'g'ridan-to'g'ri kodda - tezda o'zgartiring!
+const BOT_TOKEN = "7987077916:AAFLpL3S4zXFj5qv8cY7XRu5hatfBxf2ZwU";
+const bot = new Telegraf(BOT_TOKEN);
 
 // Start komandasi
 bot.start((ctx) => {
@@ -37,58 +39,32 @@ bot.help((ctx) => {
 // Asosiy xabar handler
 bot.on('text', async (ctx) => {
     const userMessage = ctx.message.text;
-    const userId = ctx.from.id;
-    const userName = ctx.from.first_name || 'Foydalanuvchi';
     
     try {
-        // "Typing..." indikatorini ko'rsatish
         await ctx.sendChatAction('typing');
-        
-        // Kichik kechikish (real suhbatdek)
+        // Tabiiy kechikish
         await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
         
-        // Chat engine orqali javob topish
         const response = chatEngine.getResponse(userMessage);
-        
-        // Javobni yuborish
         await ctx.reply(response.text, {
             reply_to_message_id: ctx.message.message_id
         });
         
-        // Konsolga log (xatoliklarni kuzatish uchun)
-        console.log(`[${new Date().toISOString()}] ${userName} (${userId}): "${userMessage}" -> [${response.category}] (${(response.confidence * 100).toFixed(0)}%)`);
-        
-        // Tasodifiy qo'shimcha reaksiyalar
-        if (response.category === 'jokes' && Math.random() > 0.7) {
-            setTimeout(async () => {
-                await ctx.reply('😄 Yana bir hazil kerakmi?');
-            }, 1500);
-        }
+        console.log(`${ctx.from.first_name}: "${userMessage}" -> [${response.category}]`);
         
     } catch (error) {
         console.error('Xatolik:', error);
-        
-        // Oddiy foydalanuvchiga ko'rsatilmaydigan xato
-        await ctx.reply(
-            'Kechirasiz, tushunmadim. Qaytadan urinib ko\'ring yoki /help yozing. 😊',
-            { reply_to_message_id: ctx.message.message_id }
-        );
+        await ctx.reply('Kechirasiz, tushunmadim. /help yozing. 😊');
     }
 });
 
-// Sticker yoki boshqa media
-bot.on('sticker', (ctx) => {
-    ctx.reply('Chiroyli stiker! 😊 Men matnli xabarlarni yaxshiroq tushunaman.');
-});
+// Sticker va boshqa mediani tutish
+bot.on('sticker', (ctx) => ctx.reply('Chiroyli stiker! Men matnli xabarlarni yaxshiroq tushunaman.'));
+bot.on('voice', (ctx) => ctx.reply('Hozircha ovozli xabarlarni tushuna olmayman. Matn yozing. ✍️'));
 
-// Voice message
-bot.on('voice', (ctx) => {
-    ctx.reply('Kechirasiz, hozircha ovozli xabarlarni tushuna olmayman. Iltimos, matn yozing. ✍️');
-});
-
-// Webhook handler
+// Vercel serverless handler
 module.exports = async (req, res) => {
-    // CORS headers (ixtiyoriy, monitoring uchun)
+    // CORS headerlari
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     
@@ -99,38 +75,36 @@ module.exports = async (req, res) => {
     if (req.method === 'POST') {
         try {
             await bot.handleUpdate(req.body);
-            res.status(200).json({ 
-                ok: true,
-                timestamp: new Date().toISOString()
-            });
+            res.status(200).json({ ok: true });
         } catch (error) {
             console.error('Bot xatosi:', error);
-            // Telegramga 200 qaytarish kerak, aks holda takroriy so'rovlar bo'ladi
-            res.status(200).json({ 
-                ok: false, 
-                error: error.message 
-            });
+            res.status(200).json({ ok: false, error: error.message });
         }
     } else if (req.method === 'GET') {
-        // Webhook o'rnatish va status
-        const webhookUrl = `https://${process.env.VERCEL_URL || 'your-app.vercel.app'}/api/telegram`;
+        // Webhook o'rnatish va holat
+        const baseUrl = process.env.VERCEL_URL 
+            ? `https://${process.env.VERCEL_URL}` 
+            : 'http://localhost:3000';
+        const webhookUrl = `${baseUrl}/api/telegram`;
         
         try {
-            // Status ma'lumot
-            const categories = Object.keys(require('../data/conversations.json')).length;
+            const response = await fetch(
+                `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${webhookUrl}`
+            );
+            const data = await response.json();
             
             res.status(200).json({
-                name: 'Uzbek AI Chatbot',
-                version: '1.0.0',
-                status: 'active',
+                success: true,
+                message: 'Webhook o\'rnatildi',
                 webhook: webhookUrl,
-                categories: categories,
-                language: 'Uzbek 🇺🇿',
-                deployment: 'Vercel Serverless',
-                setup_webhook: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`
+                details: data
             });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ 
+                success: false, 
+                error: error.message,
+                manual: `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${webhookUrl}`
+            });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });
