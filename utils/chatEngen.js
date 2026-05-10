@@ -3,37 +3,18 @@ const conversations = require('../data/conversations.json');
 class ChatEngine {
     constructor() {
         this.categories = Object.keys(conversations);
-        console.log(`ChatEngine initialized with ${this.categories.length} categories`);
     }
 
-    /**
-     * Matnni tozalash va normallashtirish
-     */
     normalizeText(text) {
-        return text
-            .toLowerCase()
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
+        return text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, '').replace(/\s+/g, ' ').trim();
     }
 
-    /**
-     * Levenshtein masofasi - o'xshash so'zlarni topish
-     */
     levenshteinDistance(str1, str2) {
         const matrix = [];
-        const len1 = str1.length;
-        const len2 = str2.length;
-
-        for (let i = 0; i <= len1; i++) {
-            matrix[i] = [i];
-        }
-        for (let j = 0; j <= len2; j++) {
-            matrix[0][j] = j;
-        }
-
-        for (let i = 1; i <= len1; i++) {
-            for (let j = 1; j <= len2; j++) {
+        for (let i = 0; i <= str1.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= str2.length; j++) matrix[0][j] = j;
+        for (let i = 1; i <= str1.length; i++) {
+            for (let j = 1; j <= str2.length; j++) {
                 const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
                 matrix[i][j] = Math.min(
                     matrix[i - 1][j] + 1,
@@ -42,94 +23,64 @@ class ChatEngine {
                 );
             }
         }
-        return matrix[len1][len2];
+        return matrix[str1.length][str2.length];
     }
 
-    /**
-     * So'zlar orasidagi o'xshashlik foizi
-     */
     similarityScore(word1, word2) {
         const maxLen = Math.max(word1.length, word2.length);
-        if (maxLen === 0) return 1.0;
-        const distance = this.levenshteinDistance(word1, word2);
-        return 1 - distance / maxLen;
+        if (maxLen === 0) return 1;
+        return 1 - this.levenshteinDistance(word1, word2) / maxLen;
     }
 
-    /**
-     * Asosiy javob topish funksiyasi
-     */
     findBestMatch(userInput) {
         const normalizedInput = this.normalizeText(userInput);
         const inputWords = normalizedInput.split(' ');
-        
         let bestScore = 0;
         let bestCategory = null;
 
-        // Har bir kategoriya uchun
         for (const category of this.categories) {
             if (category === 'fallback') continue;
-            
             const patterns = conversations[category].patterns || [];
-            
             for (const pattern of patterns) {
                 const normalizedPattern = this.normalizeText(pattern);
-                
-                // 1. To'liq moslik
+                // To‘liq moslik
                 if (normalizedInput === normalizedPattern) {
-                    return {
-                        category: category,
-                        score: 1.0,
-                        matchType: 'exact'
-                    };
+                    return { category, score: 1.0, matchType: 'exact' };
                 }
-                
-                // 2. Qisman moslik (pattern input ichida)
+                // Qisman moslik
                 if (normalizedInput.includes(normalizedPattern)) {
                     const score = 0.95;
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestCategory = category;
-                    }
+                    if (score > bestScore) { bestScore = score; bestCategory = category; }
                 }
-                
-                // 3. So'zma-so'z moslik
+                // So‘zma-so‘z moslik
                 const patternWords = normalizedPattern.split(' ');
                 let wordMatches = 0;
-                
                 for (const inputWord of inputWords) {
-                    if (inputWord.length < 3) continue; // Juda qisqa so'zlarni o'tkazib yuborish
-                    
+                    if (inputWord.length < 3) continue;
                     for (const patternWord of patternWords) {
-                        const similarity = this.similarityScore(inputWord, patternWord);
-                        if (similarity > 0.8) { // 80% o'xshashlik
+                        if (this.similarityScore(inputWord, patternWord) > 0.8) {
                             wordMatches++;
                             break;
                         }
                     }
                 }
-                
                 const patternMatchScore = wordMatches / Math.max(patternWords.length, 1);
-                
                 if (patternMatchScore > bestScore) {
                     bestScore = patternMatchScore;
                     bestCategory = category;
                 }
             }
         }
-
-        // 4. To'g'ridan-to'g'ri kalit so'z qidirish
+        // Kalit so‘z qidiruv
         for (const category of this.categories) {
             if (category === 'fallback') continue;
             const patterns = conversations[category].patterns || [];
-            
             for (const pattern of patterns) {
                 const patternWords = pattern.toLowerCase().split(' ');
                 for (const pWord of patternWords) {
                     if (pWord.length < 3) continue;
-                    
                     for (const iWord of inputWords) {
                         if (iWord.length < 3) continue;
-                        
                         const similarity = this.similarityScore(iWord, pWord);
                         if (similarity > 0.75 && similarity > bestScore) {
                             bestScore = similarity;
@@ -147,22 +98,11 @@ class ChatEngine {
         };
     }
 
-    /**
-     * Javob generatsiya qilish
-     */
     getResponse(userInput) {
         const match = this.findBestMatch(userInput);
         const responses = conversations[match.category].responses;
-        
-        // Tasodifiy javob tanlash
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        
-        return {
-            text: randomResponse,
-            category: match.category,
-            confidence: match.score,
-            matchType: match.matchType
-        };
+        return { text: randomResponse, category: match.category, confidence: match.score, matchType: match.matchType };
     }
 }
 
