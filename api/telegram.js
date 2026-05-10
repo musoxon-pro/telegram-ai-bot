@@ -1,93 +1,72 @@
 const { Telegraf } = require('telegraf');
-const chatEngine = require('../utils/chatEngine');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
+// To'g'ridan-to'g'ri javob funksiyasi
+function getReply(text) {
+    const msg = text.toLowerCase();
+    
+    if (/(salom|assalom|hello|hi)/.test(msg)) {
+        return ["Assalomu alaykum! 👋 Sizni ko'rganimdan xursandman!", "Salom! Nima gaplar?"][Math.floor(Math.random() * 2)];
+    }
+    if (/(qalay|qanday|ahvol|yaxshimisan)/.test(msg)) {
+        return ["Yaxshi, rahmat! 😊 O'zingiz-chi?", "A'lo darajada! Siz bilan suhbatdan xursandman!"][Math.floor(Math.random() * 2)];
+    }
+    if (/(hazil|kulgi|kulguli|joke)/.test(msg)) {
+        return ["😂 Nega dasturchi ishga kech qoldi? Yo'lda 0 va 1 larni sanab o'tirgan ekan!", "O'qituvchi: Nega kech qolding? - «Asta kiring» deb yozilgan edi!"][Math.floor(Math.random() * 2)];
+    }
+    if (/(rahmat|tashakkur|thanks)/.test(msg)) {
+        return "Arzimaydi! 😊 Doim yordam berishdan xursandman!";
+    }
+    if (/(xayr|hayr|bye|ko'rishguncha)/.test(msg)) {
+        return "Xayr! Yana keling! 👋";
+    }
+    if (/(dastur|program|python|javascript|code)/.test(msg)) {
+        return "Dasturlash – bu san'at! 💻 JavaScript va Python eng zo'r tillar!";
+    }
+    if (/(ovqat|osh|palov|somsa|taom)/.test(msg)) {
+        return "Palov – shohona taom! 🍚 Somsa-chi? 😋";
+    }
+    
+    return ["Tushunmadim, iltimos boshqacha yozing 😊", "Bu haqida ko'proq o'ylab ko'raman!"][Math.floor(Math.random() * 2)];
+}
+
 bot.start((ctx) => {
-    const firstName = ctx.from.first_name || 'Do‘stim';
-    ctx.reply(
-        `Assalomu alaykum, ${firstName}! 👋\n\n` +
-        `Men sun'iy intellekt asosidagi suhbatdosh botman. 🤖\n` +
-        `O‘zbek tilida erkin suhbatlasha olaman.\n\n` +
-        `Nima haqida gaplashamiz? 😊\n\n` +
-        `Yordam uchun: /help`
-    );
+    ctx.reply(`Assalomu alaykum, ${ctx.from.first_name}! 👋\n\nMen suhbatdosh botman!\n/help uchun bosing.`);
 });
 
 bot.help((ctx) => {
-    ctx.reply(
-        `🌟 **Yordam**\n\n` +
-        `Men bilan quyidagi mavzularda suhbatlashishingiz mumkin:\n\n` +
-        `👋 Salomlashish\n` +
-        `😊 Kayfiyat so‘rash\n` +
-        `😂 Hazil va kulgili gaplar\n` +
-        `💕 Sevgi va muhabbat\n` +
-        `🍲 Ovqat va taomlar\n` +
-        `💻 Dasturlash (JavaScript, Python)\n` +
-        `💪 Motivatsiya\n` +
-        `🌈 Ko‘tarinki kayfiyat\n` +
-        `📚 Maslahatlar\n` +
-        `❓ Savol-javob\n\n` +
-        `Oddiy gaplarni yozing, men tushunaman! 😊`
-    );
+    ctx.reply("Men bilan gaplashing: salom, qalaysan, hazil ayt, rahmat, xayr... 💬");
 });
 
 bot.on('text', async (ctx) => {
-    const userMessage = ctx.message.text;
     try {
         await ctx.sendChatAction('typing');
-        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
-        const response = chatEngine.getResponse(userMessage);
-        await ctx.reply(response.text, {
-            reply_to_message_id: ctx.message.message_id
-        });
-        console.log(`${ctx.from.first_name}: "${userMessage}" -> [${response.category}]`);
-    } catch (error) {
-        console.error('Xatolik:', error);
-        await ctx.reply('Kechirasiz, tushunmadim. /help yozing. 😊');
+        await new Promise(r => setTimeout(r, 500 + Math.random() * 500));
+        const reply = getReply(ctx.message.text);
+        await ctx.reply(reply, { reply_to_message_id: ctx.message.message_id });
+    } catch (e) {
+        console.error(e);
+        await ctx.reply('Xatolik! Iltimos qayta urinib ko\'ring.');
     }
 });
 
-bot.on('sticker', (ctx) => ctx.reply('Chiroyli stiker! Men matnli xabarlarni yaxshiroq tushunaman.'));
-bot.on('voice', (ctx) => ctx.reply('Hozircha ovozli xabarlarni tushuna olmayman. Matn yozing. ✍️'));
-
 module.exports = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    if (req.method === 'OPTIONS') return res.status(200).end();
-
     if (req.method === 'POST') {
         try {
             await bot.handleUpdate(req.body);
             res.status(200).json({ ok: true });
-        } catch (error) {
-            console.error('Bot xatosi:', error);
-            res.status(200).json({ ok: false, error: error.message });
+        } catch (e) {
+            res.status(200).json({ ok: true });
         }
     } else if (req.method === 'GET') {
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : 'http://localhost:3000';
-        const webhookUrl = `${baseUrl}/api/telegram`;
+        const url = `https://${process.env.VERCEL_URL || 'localhost'}/api/telegram`;
         try {
-            const response = await fetch(
-                `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`
-            );
-            const data = await response.json();
-            res.status(200).json({
-                success: true,
-                message: 'Webhook o‘rnatildi',
-                webhook: webhookUrl,
-                details: data
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                error: error.message,
-                manual: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`
-            });
+            const r = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook?url=${url}`);
+            const d = await r.json();
+            res.status(200).json({ success: true, webhook: url, details: d });
+        } catch (e) {
+            res.status(500).json({ error: e.message });
         }
-    } else {
-        res.status(405).json({ error: 'Method not allowed' });
     }
 };
