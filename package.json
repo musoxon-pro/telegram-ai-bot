@@ -1,6 +1,11 @@
 {
-  "name": "uzbek-chatbot",
+  "name": "uzbek-ai-chatbot",
   "version": "1.0.0",
+  "description": "O‘zbek tilida suhbatdosh Telegram bot",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev"
+  },
   "dependencies": {
     "telegraf": "^4.12.2"
   }
